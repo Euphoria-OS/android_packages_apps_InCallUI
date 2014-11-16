@@ -92,8 +92,8 @@
 
     <!-- Theme for the InCallActivity activity. Should have a transparent background for the
          circular reveal animation for a new outgoing call to work correctly. We don't just use
-         Theme.Black.NoTitleBar directly, since we want any popups or dialogs from the
-         InCallActivity to have the correct Material style. -->
+         Theme.Black.NoTitleBar directly, since we want any popups or dialogs
+         from the InCallActivity to have the correct material style. -->
     <style name="Theme.InCallScreen" parent="@android:style/Theme.Material.Light">
         <item name="android:windowAnimationStyle">@style/InCallAnimationStyle</item>
         <item name="android:windowIsTranslucent">true</item>
