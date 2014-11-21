@@ -1149,24 +1149,10 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
         }
 
         final Menu menu = mMoreMenu.getMenu();
-        final MenuItem startRecord = menu.findItem(R.id.menu_start_record);
-        final MenuItem stopRecord = menu.findItem(R.id.menu_stop_record);
         final MenuItem addToBlacklist = menu.findItem(R.id.menu_add_to_blacklist);
-
-        boolean isRecording = ((InCallActivity)getActivity()).isCallRecording();
-        boolean isRecordEnabled = ((InCallActivity)getActivity()).isCallRecorderEnabled();
-
-        boolean startEnabled = !isRecording && isRecordEnabled && state == Call.State.ACTIVE;
-        boolean stopEnabled = isRecording && isRecordEnabled && state == Call.State.ACTIVE;
 
         boolean blacklistVisible = BlacklistUtils.isBlacklistEnabled(getActivity())
                 && Call.State.isConnectingOrConnected(state);
-
-        startRecord.setVisible(startEnabled);
-        startRecord.setEnabled(startEnabled);
-
-        stopRecord.setVisible(stopEnabled);
-        stopRecord.setEnabled(stopEnabled);
 
         addToBlacklist.setVisible(blacklistVisible);
         addToBlacklist.setEnabled(blacklistVisible);
