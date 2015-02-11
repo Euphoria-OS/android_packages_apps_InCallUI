@@ -33,7 +33,16 @@
         android:clipChildren="false"
         android:clipToPadding="false" >
 
-        <include layout="@layout/primary_call_info" />
+        <ImageButton
+            android:id="@+id/moreMenuButton"
+            style="@style/InCallButton"
+            android:background="@drawable/btn_overflow_horizontal"
+            android:layout_gravity="end"
+            android:contentDescription="@string/onscreenMoreMenuText"/>
+
+        <include layout="@layout/primary_call_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <fragment android:name="com.android.incallui.CallButtonFragment"
             android:id="@+id/callButtonFragment"
