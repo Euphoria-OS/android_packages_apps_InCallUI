@@ -479,10 +479,9 @@ public class CallCardPresenter extends Presenter<CallCardPresenter.CallCardUi>
             final String number = getNumberForCall(entry);
             final boolean nameIsNumber = name != null && name.equals(entry.number);
             ui.setPrimary(number, name, nameIsNumber, entry.label,
-                    entry.photo, isConference, canManageConference, entry.isSipCall,
-                    entry.nickName, entry.organization, entry.position, entry.city);
+                    entry.photo, isConference, canManageConference, entry.isSipCall);
         } else {
-            ui.setPrimary(null, null, false, null, null, isConference, canManageConference, false, null, null, null, null);
+            ui.setPrimary(null, null, false, null, null, isConference, canManageConference, false);
         }
 
     }
@@ -692,7 +691,7 @@ public class CallCardPresenter extends Presenter<CallCardPresenter.CallCardUi>
         void setCallCardVisible(boolean visible);
         void setPrimary(String number, String name, boolean nameIsNumber, String label,
                 Drawable photo, boolean isConference, boolean canManageConference,
-                boolean isSipCall, String nickName, String organization, String position, String city);
+                boolean isSipCall);
         void setSecondary(boolean show, String name, boolean nameIsNumber, String label,
                 String providerLabel, Drawable providerIcon, boolean isConference,
                 boolean canManageConference);

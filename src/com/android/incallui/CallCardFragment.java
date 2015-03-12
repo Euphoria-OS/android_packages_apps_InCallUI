@@ -24,7 +24,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContentResolver;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -104,11 +103,6 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
     private AudioManager mAudioManager;
     private Toast mVBNotify;
     private int mVBToastPosition;
-    private View mDetailedCallInfo;
-    private TextView mNickName;
-    private TextView mOrganization;
-    private TextView mPosition;
-    private TextView mCity;
 
     // Secondary caller info
     private View mSecondaryCallInfo;
@@ -141,7 +135,6 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
     private static final int TTY_MODE_HCO = 2;
 
     private static final String VOLUME_BOOST = "volume_boost";
-    private static final String PREFS_KEY_DETAILED_INFO = "detailed_incall_info";
 
     @Override
     CallCardPresenter.CallCardUi getUi() {
@@ -280,12 +273,6 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
         if (null != mVBButton) {
             mVBButton.setOnClickListener(mVBListener);
         }
-
-        mDetailedCallInfo = view.findViewById(R.id.detailedCallInfo);
-        mNickName = (TextView) view.findViewById(R.id.nickName);
-        mPosition = (TextView) view.findViewById(R.id.position);
-        mOrganization = (TextView) view.findViewById(R.id.organization);
-        mCity = (TextView) view.findViewById(R.id.city);
     }
 
     @Override
@@ -477,8 +464,7 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
 
     @Override
     public void setPrimary(String number, String name, boolean nameIsNumber, String label,
-            Drawable photo, boolean isConference, boolean canManageConference, boolean isSipCall,
-            String nickName, String organization, String position, String city) {
+            Drawable photo, boolean isConference, boolean canManageConference, boolean isSipCall) {
         Log.d(this, "Setting primary call");
 
         if (isConference) {
@@ -505,8 +491,6 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
         showInternetCallLabel(isSipCall);
 
         setDrawableToImageView(mPhoto, photo);
-
-        setDetailedInfo(nickName, organization, position, city);
     }
 
     @Override
@@ -734,7 +718,6 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
                 } else if (VideoProfile.VideoState.isBidirectional(videoState)) {
                     callStateLabel = context.getString(R.string.card_title_video_call);
                 }
-                mDetailedCallInfo.setVisibility(View.GONE);
                 break;
             case Call.State.ONHOLD:
                 callStateLabel = context.getString(R.string.card_title_on_hold);
@@ -1227,32 +1210,5 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
             }
             return true;
         }
-    }
-
-    private void setDetailedInfo(String nickName, String organization,
-            String position, String city) {
-        boolean showInfo;
-        final SharedPreferences prefs = InCallApp.getPrefs(getActivity());
-
-        if (prefs.getBoolean(PREFS_KEY_DETAILED_INFO, false)) {
-            showInfo = fillTextView(mNickName, nickName);
-            showInfo |= fillTextView(mOrganization, organization);
-            showInfo |= fillTextView(mPosition, position);
-            showInfo |= fillTextView(mCity, city);
-        } else {
-            showInfo = false;
-        }
-
-        mDetailedCallInfo.setVisibility(showInfo ? View.VISIBLE : View.GONE);
-    }
-
-    private boolean fillTextView(TextView view, String text) {
-        if (TextUtils.isEmpty(text)) {
-            view.setVisibility(View.GONE);
-            return false;
-        }
-        view.setText(text);
-        view.setVisibility(View.VISIBLE);
-        return true;
     }
 }
